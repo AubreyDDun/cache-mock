@@ -2,6 +2,12 @@ const chalk = require('chalk');
 const fs = require("fs");
 const path = require("path");
 
+import {
+    getRouterRule,
+    getApiInRouter,
+    getControllerInRouter
+} from './lib/helper';
+
 const routerPath = path.join(process.cwd(), './server/app/router.ts')
 const tempRouterPath = path.join(process.cwd(), './server/app/temp-router.ts')
 
@@ -12,6 +18,26 @@ const routerExists = async () => {
             return true
         }
         console.log(chalk.red(`[ERR] ${configPath} does not exist`))
+    })
+}
+
+const api2InterfaceMethodMap = () => {
+    const rStream = fs.createReadStream(routerPath)
+    const rLine = readline.createInterface({
+        input: rStream
+    })
+
+    const api2ControllerMethodMap = {}
+    
+    rLine.on('line', (line) => {
+        let rule = getRouterRule(line)
+        if (rule) {
+            api2ControllerMethodMap[getApiInRouter(rule)] = getControllerInRouter(rule)
+        }
+    })
+
+    rLine.on('close', () => {
+        console.log(chalk.green(`[INFO] api to controller map generated: \n ${JSON.stringify(api2ControllerMethodMap, null, 4)}`))
     })
 }
 
