@@ -1,0 +1,21 @@
+{
+  "name": "cache-mock",
+  "version": "0.0.1",
+  "description": "cache the data returned by real invoking to mock file",
+  "main": "index.js",
+  "bin": {
+    "cmock": "bin/cache-mock.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0"
+  },
+  "keywords": [
+    "mock"
+  ],
+  "author": "AubreyDDun",
+  "license": "MIT"
+}
